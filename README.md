@@ -1,27 +1,107 @@
-# React + TypeScript + Vite
+# 🥽 three-fiber-webxr-toolbox
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img alt="three-fiber-webxr-toolbox" src="./assets/logo.png">
 
-Currently, two official plugins are available:
+This toolset provides useful components for creating xr content with react-three-fiber.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Motivation
 
-## Expanding the ESLint configuration
+When developing WebXR, I strongly wanted to develop in immersive mode while wearing VR goggles. If I could do that, I would be able to change the color and shape of objects in the real world just by rewriting my own code. I feel like a god.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Getting Start
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+```
+npm install three-fiber-webxr-toolbox
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Components
+
+The three-fiber-webxr-toolbox component enables development like the following video.
+
+↓ Click to play video
+<br/>
+[![three-fiber-webxr-toolbox](http://img.youtube.com/vi/jAYIertq6jA/0.jpg)](https://www.youtube.com/watch?v=jAYIertq6jA)
+
+### XRErrorBoundary
+
+This component is used to prevent webgl context from being lost if there is an error in the code. If an error occurs, an error window is displayed in XR space.
+
+Be sure to install directly under the XR component. The context is lost when XRErrorBoundary itself is re-rendered.
+
+```tsx
+import { XrErrorBoundary } from 'three-fiber-webxr-toolbox'
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <ARButton />
+    <Canvas>
+      <XR>
+        <XrErrorBoundary>
+          <App />
+        </XrErrorBoundary>
+      </XR>
+    </Canvas>
+  </React.StrictMode>
+);
+```
+
+### ConsoleProvider
+
+Console logs cannot be viewed when wearing a head-mounted display. This component is designed to be used as an alternative in such cases.
+
+If it is a child element of ConsoleProvider, it can push console messages from useConsole hooks.
+
+```tsx
+import { XrErrorBoundary } from 'three-fiber-webxr-toolbox'
+
+const App = () => {
+  return (
+    <ConsoleProvider>
+      <Child />
+    </ConsoleProvider>
+  )
+}
+
+const Child = () => {
+  const { pushMessage } = useConsole()
+
+  useEffect(() => { pushMessage('Hello World!') })
+
+  return (
+    <mesh>
+      ...
+    </mesh>
+  )
+}
+```
+
+### Portal
+
+When developing in XR's immersive mode, it is sometimes inconvenient to see the keyboard, mouse, or coffee mug. In such cases, this component creates a hole to partially view the pass-through image.
+
+```jsx
+<Portal position={[0, 0.6, -0.5]} />
+```
+
+**attention**
+Even when VR content is created, it must be made in AR or the pass-through image will not be projected.
+
+### RemoteDisplay
+comming soon...
+
+This component is used to display a PC display within the content being developed. This component allows for more seamless development in immersive mode.
+
+## Code contributions
+
+To develop XR, https is required so that ngrok can access the local PC.
+Please change the domain part to your own domain.
+
+```
+ngrok http --domain=xxxxx.ngrok-free.app 5173
+```
+
+Start the development server and access the URL published in ngrok from a head-mounted display.
+
+```
+yarn dev
+```

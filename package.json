@@ -1,34 +1,65 @@
 {
-  "name": "webxr",
-  "private": true,
-  "version": "0.0.0",
+  "name": "three-fiber-webxr-toolbox",
+  "description": "This toolset provides useful components for creating xr content with react-three-fiber.",
+  "version": "0.0.2",
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "build": "vite build && tsc",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
-  "dependencies": {
-    "@react-three/drei": "^9.88.15",
-    "@react-three/fiber": "^8.15.9",
-    "@react-three/xr": "^5.7.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-error-boundary": "^4.0.11",
+  "keywords": ["three", "react", "react-three-fiber", "webxr", "vr", "ar", "xr"],
+  "author": "sawa-zen",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sawa-zen/three-fiber-webxr-toolbox.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sawa-zen/three-fiber-webxr-toolbox/issues"
+  },
+  "homepage": "https://github.com/sawa-zen/three-fiber-webxr-toolbox#readme",
+  "peerDependencies": {
+    "@react-three/fiber": "^8",
+    "@react-three/xr": "^5",
+    "react": "^18",
+    "react-dom": "^18",
     "three": "^0.158.0"
   },
+  "dependencies": {
+    "react-error-boundary": "^4.0.11"
+  },
   "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "@types/three": "^0.158.1",
+    "@react-three/eslint-plugin": "^0.1.1",
+    "@react-three/fiber": "^8.15.9",
+    "@react-three/xr": "^5.7.1",
+    "@topotal/eslint-config-react": "^0.3.3",
+    "@topotal/eslint-config-typescript": "^0.2.3",
+    "@types/node": "^20.10.2",
+    "@types/react": "^18.2.40",
+    "@types/react-dom": "^18.2.17",
+    "@types/three": "^0.159.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-basic-ssl": "^1.0.2",
     "@vitejs/plugin-react": "^4.1.1",
-    "eslint": "^8.45.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "typescript": "^5.0.2",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
+    "prettier": "^3.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "three": "^0.159.0",
+    "typescript": "^5.3.2",
     "vite": "^4.4.5",
     "vite-plugin-checker": "^0.6.2"
   }
