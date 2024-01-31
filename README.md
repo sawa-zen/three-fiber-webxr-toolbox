@@ -93,14 +93,23 @@ This component is used to display a PC display within the content being develope
 
 ## Code contributions
 
-To develop XR, https is required so that ngrok can access the local PC.
-Please change the domain part to your own domain.
+To develop XR, https is required. You can create a local certificate and key using `mkcert`.
+
+First, install `mkcert` if you haven't already
 
 ```
-ngrok http --domain=xxxxx.ngrok-free.app 5173
+brew install mkcert
 ```
 
-Start the development server and access the URL published in ngrok from a head-mounted display.
+Then, create a local certificate and key for `localhost`
+
+```
+mkcert localhost
+```
+
+This will generate two files: `localhost.pem`, the local certificate, and `localhost-key.pem`, the private key.
+
+Start the development server and access the URL from a head-mounted display.
 
 ```
 yarn dev

@@ -1,6 +1,7 @@
 import path from 'path'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import fs from "fs"
 
 export default defineConfig(({ command }) => {
   if (command === 'serve') {
@@ -11,6 +12,12 @@ export default defineConfig(({ command }) => {
         alias: {
           'three-fiber-webxr-toolbox': path.resolve(process.cwd(), 'src')
         }
+      },
+      server: {
+        https: {
+          key: fs.readFileSync("./localhost-key.pem"),
+          cert: fs.readFileSync("./localhost.pem"),
+        },
       }
     }
   } else {
