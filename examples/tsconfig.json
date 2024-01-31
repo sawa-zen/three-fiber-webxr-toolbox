@@ -19,8 +19,13 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "three-fiber-webxr-toolbox": ["../src"]
-    }
+      "three-fiber-webxr-toolbox": [
+        "../src"
+      ]
+    },
+    "types": [
+      "vite/client"
+    ]
   },
   "include": [
     "src/**/*",

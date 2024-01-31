@@ -1,33 +1,32 @@
 import { OrbitControls } from '@react-three/drei'
 import { useState } from 'react'
-import { Portal, useConsole } from 'three-fiber-webxr-toolbox'
 import { SkySphere } from './SkySphere'
 import { useFrame } from '@react-three/fiber'
+import { Controllers } from '@react-three/xr'
+import { PassthroughHands } from '../../src/components/PassthruHands'
 
 export function App() {
-  const { pushMessage } = useConsole()
-  const [counter, setCounter] = useState(0)
-  const rotation = counter * 0.01
+  const [rotation, setRotation] = useState(0)
 
   useFrame(() => {
-    setCounter((prev) => prev + 1)
-    pushMessage(`counter: ${counter}`)
+    setRotation((r) => r + 0.01)
   })
 
   return (
     <>
-      <Portal position={[0, 0.6, -0.5]} />
+      <Controllers />
+      <PassthroughHands />
       <OrbitControls />
-      <axesHelper args={[5]} />
       <gridHelper />
       <ambientLight />
       <directionalLight position={[1, 2, 3]} />
       <mesh
-        position={[0, 1, -2]}
+        position={[0, 0.9, -0.4]}
+        scale={[0.1, 0.1, 0.1]}
         rotation={[rotation, rotation, rotation]}
       >
         <boxGeometry args={[0.5, 0.5, 0.5]} />
-        <meshPhongMaterial color="red" />
+        <meshPhongMaterial color="skyblue" />
       </mesh>
       <SkySphere />
     </>
