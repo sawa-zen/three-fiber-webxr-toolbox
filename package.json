@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host=0.0.0.0",
     "build": "vite build && tsc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
@@ -39,7 +39,8 @@
     "three": "^0.158.0"
   },
   "dependencies": {
-    "react-error-boundary": "^4.0.11"
+    "react-error-boundary": "^4.0.11",
+    "socket.io-client": "^4.7.4"
   },
   "devDependencies": {
     "@react-three/drei": "^9.97.0",
