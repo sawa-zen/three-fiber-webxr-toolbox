@@ -43,7 +43,7 @@
     "socket.io-client": "^4.7.4"
   },
   "devDependencies": {
-    "@react-three/drei": "^9.97.0",
+    "@react-three/drei": "^9.99.5",
     "@react-three/eslint-plugin": "^0.1.1",
     "@react-three/fiber": "^8.15.9",
     "@react-three/xr": "^5.7.1",

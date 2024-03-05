@@ -1,4 +1,4 @@
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls, Wireframe } from '@react-three/drei'
 import { useState } from 'react'
 import { Portal, RemoteDisplay, useConsole } from 'three-fiber-webxr-toolbox'
 import { SkySphere } from './SkySphere'
@@ -13,9 +13,9 @@ export function App() {
 
   return (
     <>
-      <Portal position={[0, 0.3, -0.6]} />
+      <RemoteDisplay position={[0, 1.5, -1]} />
+      <Portal position={[0, 0.3, -1]} />
       <OrbitControls />
-      <axesHelper args={[5]} />
       <gridHelper />
       <ambientLight />
       <directionalLight position={[1, 2, 3]} />
@@ -24,7 +24,7 @@ export function App() {
         rotation={[rotation, rotation, rotation]}
       >
         <boxGeometry args={[0.5, 0.5, 0.5]} />
-        <meshPhongMaterial color="skyblue" />
+        <meshPhongMaterial color="red" />
       </mesh>
       <SkySphere />
     </>

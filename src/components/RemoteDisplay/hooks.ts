@@ -18,8 +18,21 @@ export const useRemoteDisplay = () => {
   const started = useRef(false)
   const videoElement = useMemo(() => document.createElement("video"), [])
   const { pushMessage } = useConsole()
-  const socket = useMemo(() => io("https://localhost:3000"), [])
+  const socket = useMemo(() => io("https://192.168.0.22:3000", {
+  }), [])
   const peer = useMemo(() => new RTCPeerConnection(), [])
+
+  useEffect(() => {
+    socket.on('connect', (e: any) => {
+      pushMessage('socket connected')
+    })
+    socket.on('error', () => {
+      pushMessage('error')
+    })
+    socket.on("connect_error", (err) => {
+      pushMessage(`connect_error due to ${err.message}`);
+    })    
+  }, [])
 
   const handleOnTrack = useCallback((event: any) => {
     pushMessage('handleOnTrack')
@@ -59,7 +72,13 @@ export const useRemoteDisplay = () => {
 
   const handleOnSelect = useCallback(() => {
     pushMessage('handleOnSelect')
+    loading.current = true
     socket.emit('SEND_CALL')
+    setTimeout(() => {
+      if (!loading.current) return
+      pushMessage('接続に失敗しました')
+      loading.current = false
+    }, 1000)
   }, [])
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {

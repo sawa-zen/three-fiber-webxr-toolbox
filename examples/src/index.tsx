@@ -13,7 +13,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <Controllers />
         <XrErrorBoundary>
           <ConsoleProvider>
-            <RemoteDisplay position={[0, 0.9, -3]} />
             <App />
           </ConsoleProvider>
         </XrErrorBoundary>

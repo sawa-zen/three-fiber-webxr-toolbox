@@ -1,4 +1,4 @@
-import { DisplayP3ColorSpace, LinearFilter } from "three"
+import { BackSide, DisplayP3ColorSpace } from "three"
 import { useRemoteDisplay } from "./hooks"
 import { Interactive } from "@react-three/xr"
 import { memo } from "react"
@@ -15,8 +15,19 @@ export const RemoteDisplay = memo(({
   return (
     <Interactive onSelect={handleOnSelect}>
       <mesh position={position}>
-        <planeGeometry args={[16 / 5, 9 / 5]} />
-        <meshBasicMaterial attach="material">
+        <cylinderGeometry 
+          args={[
+            3, // radiusTop?: number,
+            3, // radiusBottom?: number,
+            2.5, // height?: number,
+            24, // radialSegments?: number,
+            5, // heightSegments?: number,
+            true, // openEnded?: boolean,
+            Math.PI + (Math.PI / 4.4), // thetaStart?: number,
+            -(Math.PI / 2.2), // thetaLength?: number,
+          ]}
+        />
+        <meshBasicMaterial>
           <videoTexture
             attach="map"
             args={[videoElement]}
