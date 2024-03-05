@@ -6,23 +6,13 @@ interface Props {
   serverUrl: string,
 }
 
-export const useRemoteDisplay = () => {
+export const useRemoteDisplay = ({ serverUrl }: Props) => {
   const loading = useRef(false)
   const started = useRef(false)
   const videoElement = useMemo(() => document.createElement("video"), [])
   const { pushMessage } = useConsole()
-  const socket = useMemo(() => io("https://192.168.0.22:3000"), [])
+  const socket = useMemo(() => io(serverUrl), [])
   const peer = useMemo(() => new RTCPeerConnection(), [])
-
-  const sendCall = useCallback(() => {
-    loading.current = true
-    socket.emit('SEND_CALL')
-    setTimeout(() => {
-      if (!loading.current) return
-      pushMessage('Failed to connect')
-      loading.current = false
-    }, 1000)
-  }, [])
 
   const handleOnTrack = useCallback((event: any) => {
     videoElement.srcObject = event.streams[0]
@@ -58,12 +48,13 @@ export const useRemoteDisplay = () => {
   }, [])
 
   const handleOnSelect = useCallback(() => {
-    sendCall()
-  }, [])
-
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (event.key !== 'a' || started.current) return
-    sendCall()
+    loading.current = true
+    socket.emit('SEND_CALL')
+    setTimeout(() => {
+      if (!loading.current) return
+      pushMessage('Failed to connect')
+      loading.current = false
+    }, 1000)
   }, [])
 
   useEffect(() => {
@@ -72,7 +63,6 @@ export const useRemoteDisplay = () => {
     socket.on('RECEIVE_OFFER', handleRecieveOffer)
     socket.on('RECEIVE_CANDIDATE', handleReceiveCandidate)
     socket.on('RECEIVE_DISCONNECT', handleRecieveDisconnect)
-    document.addEventListener('keydown', handleKeyDown)
 
     return () => {
       peer.ontrack = null
@@ -80,7 +70,6 @@ export const useRemoteDisplay = () => {
       socket.off('RECEIVE_OFFER', handleRecieveOffer)
       socket.off('RECEIVE_CANDIDATE', handleReceiveCandidate)
       socket.off('RECEIVE_DISCONNECT', handleRecieveDisconnect)
-      document.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
 

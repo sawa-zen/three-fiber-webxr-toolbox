@@ -5,12 +5,14 @@ import { memo } from "react"
 
 interface Props {
   position?: [number, number, number]
+  serverUrl: string
 }
 
 export const RemoteDisplay = memo(({
-  position = [0, 0, 0]
+  position = [0, 0, 0],
+  serverUrl,
 }: Props) => {
-  const { videoElement, handleOnSelect } = useRemoteDisplay()
+  const { videoElement, handleOnSelect } = useRemoteDisplay({ serverUrl })
 
   return (
     <Interactive onSelect={handleOnSelect}>
