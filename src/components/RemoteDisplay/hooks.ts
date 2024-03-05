@@ -1,53 +1,37 @@
-import { useXR } from "@react-three/xr";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import { io } from "socket.io-client"
 import { useConsole } from "../ConsoleProvider";
-
-async function getScreenCaptureStream() {
-  try {
-    const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-    return stream;
-  } catch (err) {
-    console.error("Error: " + err);
-    return null;
-  }
-}
 
 export const useRemoteDisplay = () => {
   const loading = useRef(false)
   const started = useRef(false)
   const videoElement = useMemo(() => document.createElement("video"), [])
   const { pushMessage } = useConsole()
-  const socket = useMemo(() => io("https://192.168.0.22:3000", {
-  }), [])
+  const socket = useMemo(() => io("https://192.168.0.22:3000"), [])
   const peer = useMemo(() => new RTCPeerConnection(), [])
 
-  useEffect(() => {
-    socket.on('connect', (e: any) => {
-      pushMessage('socket connected')
-    })
-    socket.on('error', () => {
-      pushMessage('error')
-    })
-    socket.on("connect_error", (err) => {
-      pushMessage(`connect_error due to ${err.message}`);
-    })    
+  const sendCall = useCallback(() => {
+    loading.current = true
+    socket.emit('SEND_CALL')
+    setTimeout(() => {
+      if (!loading.current) return
+      pushMessage('Failed to connect')
+      loading.current = false
+    }, 1000)
   }, [])
 
   const handleOnTrack = useCallback((event: any) => {
-    pushMessage('handleOnTrack')
     videoElement.srcObject = event.streams[0]
     videoElement.play()
+    pushMessage('Remote Display Connected')
   }, [])
 
   const handleOnIceCandidate = useCallback((event: any) => {
-    pushMessage('handleOnIceCandidate')
     if (!event.candidate) return
     socket.emit('SEND_CANDIDATE', { ice: event.candidate })
   }, [])
 
   const handleRecieveOffer = useCallback(async (sdp: any) => {
-    pushMessage('handleRecieveOffer')
     const offer = new RTCSessionDescription(sdp)
     await peer.setRemoteDescription(offer)
     const answer = await peer.createAnswer()
@@ -58,7 +42,6 @@ export const useRemoteDisplay = () => {
   }, [])
 
   const handleReceiveCandidate = useCallback((ice: any) => {
-    pushMessage('handleReceiveCandidate')
     const candidate = new RTCIceCandidate(ice);
     peer.addIceCandidate(candidate)
   }, [])
@@ -67,30 +50,16 @@ export const useRemoteDisplay = () => {
     loading.current = false
     started.current = false
     videoElement.srcObject = null
-    pushMessage('相手が切断しました')
+    pushMessage('Remote Display Disconnected')
   }, [])
 
   const handleOnSelect = useCallback(() => {
-    pushMessage('handleOnSelect')
-    loading.current = true
-    socket.emit('SEND_CALL')
-    setTimeout(() => {
-      if (!loading.current) return
-      pushMessage('接続に失敗しました')
-      loading.current = false
-    }, 1000)
+    sendCall()
   }, [])
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key !== 'a' || started.current) return
-    pushMessage(event.key)
-    loading.current = true
-    socket.emit('SEND_CALL')
-    setTimeout(() => {
-      if (!loading.current) return
-      pushMessage('接続に失敗しました')
-      loading.current = false
-    }, 1000)
+    sendCall()
   }, [])
 
   useEffect(() => {

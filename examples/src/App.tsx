@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Portal, RemoteDisplay, useConsole } from 'three-fiber-webxr-toolbox'
 import { SkySphere } from './SkySphere'
 import { useFrame } from '@react-three/fiber'
+import { Controllers, Hands } from '@react-three/xr'
 
 export function App() {
   const [rotation, setRotation] = useState(0)
@@ -13,7 +14,8 @@ export function App() {
 
   return (
     <>
-      <RemoteDisplay position={[0, 1.5, -1]} />
+      <Controllers />
+      <Hands />
       <Portal position={[0, 0.3, -1]} />
       <OrbitControls />
       <gridHelper />

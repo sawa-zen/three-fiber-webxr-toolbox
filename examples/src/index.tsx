@@ -7,10 +7,12 @@ import { XrErrorBoundary, ConsoleProvider, RemoteDisplay } from "three-fiber-web
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ARButton />
+    <ARButton 
+      sessionInit={{ optionalFeatures: ["hand-tracking"] }}
+    />
     <Canvas>
       <XR>
-        <Controllers />
+        <RemoteDisplay position={[0, 1.5, -1]} /> 
         <XrErrorBoundary>
           <ConsoleProvider>
             <App />
