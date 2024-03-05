@@ -2,6 +2,10 @@ import { useCallback, useEffect, useMemo, useRef } from "react"
 import { io } from "socket.io-client"
 import { useConsole } from "../ConsoleProvider";
 
+interface Props {
+  serverUrl: string,
+}
+
 export const useRemoteDisplay = () => {
   const loading = useRef(false)
   const started = useRef(false)
@@ -78,6 +82,11 @@ export const useRemoteDisplay = () => {
       socket.off('RECEIVE_DISCONNECT', handleRecieveDisconnect)
       document.removeEventListener('keydown', handleKeyDown)
     }
+  }, [])
+
+  useEffect(() => {
+    if (!videoElement.srcObject) return
+    videoElement.play()
   }, [])
 
   return {
