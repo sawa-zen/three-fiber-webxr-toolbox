@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <ConsoleProvider>
           <RemoteDisplay
             serverUrl={import.meta.env.VITE_SERVER_URL as string}
-            position={[0, 1.1, -1.1]}
+            position={[0, 1.1, -1]}
           /> 
           <XrErrorBoundary>
               <App />

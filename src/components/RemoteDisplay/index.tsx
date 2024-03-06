@@ -6,25 +6,27 @@ import { memo } from "react"
 interface Props {
   position?: [number, number, number]
   rotation?: [number, number, number]
+  scale?: [number, number, number]
   serverUrl: string
 }
 
 export const RemoteDisplay = memo(({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
+  scale = [1, 1, 1],
   serverUrl,
 }: Props) => {
   const { videoElement, handleOnSelect } = useRemoteDisplay({ serverUrl })
 
   return (
-    <group position={position} rotation={rotation} scale={[0.3, 0.3, 0.2]}>
+    <group position={position} rotation={rotation} scale={scale}>
       <Interactive onSelect={handleOnSelect}>
-        <mesh position={[0, 0, 1.5]}>
+        <mesh position={[0, 0, 0.5]}>
           <cylinderGeometry 
             args={[
-              3, // radiusTop?: number,
-              3, // radiusBottom?: number,
-              2.5, // height?: number,
+              1, // radiusTop?: number,
+              1, // radiusBottom?: number,
+              0.8, // height?: number,
               24, // radialSegments?: number,
               5, // heightSegments?: number,
               true, // openEnded?: boolean,
