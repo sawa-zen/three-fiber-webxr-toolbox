@@ -1,17 +1,23 @@
-import { useXR } from "@react-three/xr";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { io } from "socket.io-client"
 import { useConsole } from "../ConsoleProvider";
 
-async function getScreenCaptureStream() {
-  try {
-    const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-    return stream;
-  } catch (err) {
-    console.error("Error: " + err);
-    return null;
-  }
-}
+const getWellFormedHtml = (html: string) => {
+  const doc = document.implementation.createHTMLDocument("test");
+  const range = doc.createRange();
+  range.selectNodeContents(doc.documentElement);
+  range.deleteContents();
+  const h = document.createElement("head");
+  doc.documentElement.appendChild(h);
+        doc.documentElement.appendChild(range.createContextualFragment(html));
+  console.log("doc.documentElement.namespaceURI : "+doc.documentElement.namespaceURI);
+  doc.documentElement.setAttribute("xmlns", doc.documentElement.namespaceURI || '');
+
+  // Get well-formed markup
+  const wfHtml = (new XMLSerializer).serializeToString(doc);
+  console.log(wfHtml);
+  return wfHtml.replace(/\<\!DOCTYPE html\>/, "");
+};
 
 export const useRemoteDisplay = () => {
   const loading = useRef(false)
@@ -20,6 +26,38 @@ export const useRemoteDisplay = () => {
   const { pushMessage } = useConsole()
   const socket = useMemo(() => io("https://localhost:3000"), [])
   const peer = useMemo(() => new RTCPeerConnection(), [])
+
+  const canvasElement = useMemo(() => {
+    const c = document.createElement("canvas")
+    c.width = 640
+    c.height = 480
+    return c
+  }, [])
+  const html = useMemo(() => getWellFormedHtml("<html><head><title>test</title></head><body><h1 style=\"color: red;\">test</h1></body></html>"), [])
+  const data = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasElement.width}" height="${canvasElement.height}">` +
+        `<foreignObject width="100%" height="100%">${html}</foreignObject></svg>`;
+
+  useEffect(() => {
+    const img = new Image();
+    const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(data);
+    img.onload = () => {
+      console.log("img.onload");
+      const ctx = canvasElement.getContext("2d");
+      ctx!.drawImage(img, 0,0);
+    };
+    img.src = url;
+  }, [])
+
+  const start = useCallback(async () => {
+    if (started.current || loading.current) return
+    loading.current = true
+    socket.emit('SEND_CALL')
+    setTimeout(() => {
+      if (!loading.current) return
+      pushMessage('接続に失敗しました')
+      loading.current = false
+    }, 1000)
+  }, [])
 
   const handleOnTrack = useCallback((event: any) => {
     pushMessage('handleOnTrack')
@@ -58,20 +96,12 @@ export const useRemoteDisplay = () => {
   }, [])
 
   const handleOnSelect = useCallback(() => {
-    pushMessage('handleOnSelect')
-    socket.emit('SEND_CALL')
+    start()
   }, [])
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (event.key !== 'a' || started.current) return
-    pushMessage(event.key)
-    loading.current = true
-    socket.emit('SEND_CALL')
-    setTimeout(() => {
-      if (!loading.current) return
-      pushMessage('接続に失敗しました')
-      loading.current = false
-    }, 1000)
+    if (event.key !== 'a') return
+    start()
   }, [])
 
   useEffect(() => {
@@ -94,6 +124,7 @@ export const useRemoteDisplay = () => {
 
   return {
     videoElement,
+    canvasElement,
     handleOnSelect,
   }
 }
