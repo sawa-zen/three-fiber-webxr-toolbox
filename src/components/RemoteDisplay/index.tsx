@@ -1,7 +1,7 @@
-import { BackSide, DisplayP3ColorSpace, Group } from "three"
-import { useRemoteDisplay } from "./hooks"
-import { Interactive } from "@react-three/xr"
-import { memo } from "react"
+import { memo } from 'react'
+import { Interactive } from '@react-three/xr'
+import { DisplayP3ColorSpace } from 'three'
+import { useRemoteDisplay } from './hooks'
 
 interface Props {
   position?: [number, number, number]
@@ -22,7 +22,7 @@ export const RemoteDisplay = memo(({
     <group position={position} rotation={rotation} scale={scale}>
       <Interactive onSelect={handleOnSelect}>
         <mesh position={[0, 0, 0.5]}>
-          <cylinderGeometry 
+          <cylinderGeometry
             args={[
               1, // radiusTop?: number,
               1, // radiusBottom?: number,

@@ -73,6 +73,6 @@ module.exports = {
     "comma-spacing": ["error", { "before": false, "after": true }],
     "object-shorthand": ["error", "always"],
     "no-throw-literal": "error",
-    "react/no-unknown-property": false,
+    "react/no-unknown-property": 0,
   },
 }
