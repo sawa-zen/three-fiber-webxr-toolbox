@@ -1,9 +1,8 @@
 import { OrbitControls } from '@react-three/drei'
 import { useState } from 'react'
 import { SkySphere } from './SkySphere'
+import { useXRPlanes, XRPlaneModel, XRSpace } from '@react-three/xr'
 import { useFrame } from '@react-three/fiber'
-import { Controllers } from '@react-three/xr'
-import { PassthroughHands } from '../../src/components/PassthruHands'
 
 export function App() {
   const [rotation, setRotation] = useState(0)
@@ -14,8 +13,6 @@ export function App() {
 
   return (
     <>
-      <Controllers />
-      <PassthroughHands />
       <OrbitControls />
       <gridHelper />
       <ambientLight />
