@@ -15,12 +15,12 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <XR store={store}>
         <ConsoleProvider>
           <RemoteDisplay
-            position={[0, 1.5, -0.1]}
+            position={[0, 1.0, -0.1]}
             scale={0.7}
             socketServerUri={socketServerUrl}
           />
           <XrErrorBoundary>
-            <Portal position={[0, 1.0, -0.6]} />
+            <Portal position={[0, 0.5, -0.6]} />
             <App />
           </XrErrorBoundary>
         </ConsoleProvider>
