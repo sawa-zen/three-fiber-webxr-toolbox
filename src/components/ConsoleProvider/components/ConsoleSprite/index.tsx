@@ -1,8 +1,7 @@
 import { CanvasTexture, Mesh, RepeatWrapping, Vector3 } from "three"
 import { drawErrorCard } from "./utils"
-import { useXR } from "@react-three/xr"
 import { useFrame, useThree } from "@react-three/fiber"
-import { useEffect, useMemo, useRef } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 interface Props {
   messages: string[]
@@ -12,7 +11,6 @@ export const ConsoleSprite = ({ messages }: Props): JSX.Element => {
   const meshRef = useRef<Mesh | null>(null)
   const canvasTextureRef = useRef<CanvasTexture>(null)
   const { gl, camera } = useThree()
-  const { player, isPresenting } = useXR()
 
   const canvas = useMemo(() => {
     const tmp = document.createElement('canvas');
@@ -31,19 +29,22 @@ export const ConsoleSprite = ({ messages }: Props): JSX.Element => {
   }, [canvas, messages])
 
   useFrame(() => {
-    const targetCamera = isPresenting ? gl.xr.getCamera() : camera
-    const targetPosition = isPresenting ? player.position.clone() : camera.position.clone()
-    const cameraDirection = targetCamera.getWorldDirection(new Vector3()).normalize()
-    // カメラの向きを25度左に向ける
+    // フレーム数をインクリメント
+    const targetCamera = gl.xr.isPresenting ? gl.xr.getCamera() : camera
+    const e = targetCamera.matrixWorld.elements
+    const cameraDirection = new Vector3(-e[8], -e[9], -e[10]).normalize()
+    const targetPosition = camera.position.clone()
+
+    // カメラの向きから25度左に向ける
     cameraDirection.applyAxisAngle(new Vector3(0, 1, 0), Math.PI / 180 * 25)
-    const position = targetPosition.add(cameraDirection.multiplyScalar(5))
+    const position = targetPosition.add(cameraDirection.multiplyScalar(3))
     // カメラの向きに合わせてスプライトを回転させる
     meshRef.current?.lookAt(targetCamera.position)
     meshRef.current?.position.copy(position)
   })
 
   return (
-    <mesh ref={meshRef} scale={3}>
+    <mesh ref={meshRef} scale={3} position={[0, 1, -1]}>
       <planeGeometry args={[0.5, 1]} />
       <meshBasicMaterial>
         <canvasTexture
