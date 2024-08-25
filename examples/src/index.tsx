@@ -10,7 +10,22 @@ const store = createXRStore()
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <button onClick={() => store.enterAR()}>Enter AR</button>
+    <button
+      style={{
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: 100,
+        margin: "auto",
+        zIndex: 100,
+        width: 200,
+        height: 50,
+        border: "3px solid black",
+      }}
+      onClick={() => store.enterAR()}
+    >
+      Enter AR
+    </button>
     <Canvas>
       <XR store={store}>
         <ConsoleProvider>
