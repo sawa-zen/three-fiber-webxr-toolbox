@@ -19,7 +19,7 @@ export const useConsole = () => {
   return useContext(ConsoleContext)
 }
 
-export const ConsoleProvider = ({ children }: Props): JSX.Element => {
+export const ConsoleProvider = ({ children }: Props) => {
   const [messages, setMessages] = useState<string[]>([])
 
   const pushMessage = useCallback((message: string) => {

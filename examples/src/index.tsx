@@ -1,27 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { App } from "./App";
-import { ARButton, XR } from "@react-three/xr";
+import { createXRStore, XR } from "@react-three/xr";
 import { Canvas } from "@react-three/fiber";
-import { XrErrorBoundary, ConsoleProvider, RemoteDisplay, Portal } from "three-fiber-webxr-toolbox"
+import { ConsoleProvider, PassthroughHand, RemoteDisplay, XrErrorBoundary } from "three-fiber-webxr-toolbox"
+import { App } from "./App";
 
 const socketServerUrl = import.meta.env.VITE_SOCKET_SERVER_URL as string
 
+const store = createXRStore({
+  hand: PassthroughHand,
+})
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ARButton
-      sessionInit={{ optionalFeatures: ['hand-tracking'] }}
-    />
+    <button onClick={() => { store.enterAR() }}>AR</button>
     <Canvas>
-      <XR>
+      <XR store={store}>
         <ConsoleProvider>
           <RemoteDisplay
-            position={[0, 1.1, -0.1]}
+            position={[0, 1.7, -0.15]}
             scale={0.7}
             socketServerUri={socketServerUrl}
           />
           <XrErrorBoundary>
-            <Portal position={[0, 0.5, -0.6]} />
             <App />
           </XrErrorBoundary>
         </ConsoleProvider>

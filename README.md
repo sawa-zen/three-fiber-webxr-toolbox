@@ -144,6 +144,24 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 
 ![](./assets/remote_display/image02.png)
 
+### PassthroughHand
+
+このコンポーネントは、XR空間内で現実の自身の手を表示するためのコンポーネントです。
+
+```tsx
+import { PassthroughHand } from 'three-fiber-webxr-toolbox'
+
+const store = createXRStore({
+  hand: PassthroughHand,
+})
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    ...
+  </React.StrictMode>
+);
+```
+
 ## Code contributions
 
 To develop XR, https is required. You can create a local certificate and key using `mkcert`.

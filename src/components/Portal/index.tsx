@@ -1,13 +1,15 @@
 interface Props {
   position?: [number, number, number]
+  size?: [number, number, number]
 }
 
 export const Portal = ({
-  position = [0, 0, 0]
+  position = [0, 0, 0],
+  size = [1, 1, 1],
 }: Props) => {
   return (
     <mesh renderOrder={-1} position={position}>
-      <boxGeometry args={[1, 0.1, 0.5]} />
+      <boxGeometry args={size} />
       <meshBasicMaterial colorWrite={false} />
     </mesh>
   )
