@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
 import { SkySphere } from './SkySphere'
 
 export function App() {
@@ -12,8 +11,6 @@ export function App() {
 
   return (
     <>
-      <OrbitControls />
-      {/* <PassthroughHands /> */}
       <gridHelper />
       <ambientLight />
       <directionalLight position={[1, 2, 3]} />

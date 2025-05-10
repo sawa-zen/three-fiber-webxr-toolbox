@@ -33,10 +33,10 @@
   "homepage": "https://github.com/sawa-zen/three-fiber-webxr-toolbox#readme",
   "peerDependencies": {
     "@react-three/fiber": "^9",
-    "@react-three/xr": "^5",
-    "react": "^18",
-    "react-dom": "^18",
-    "three": "^0.158.0"
+    "@react-three/xr": "^6",
+    "react": "^19",
+    "react-dom": "^19",
+    "three": "^0.176"
   },
   "dependencies": {
     "express": "^5.1.0",
@@ -46,7 +46,6 @@
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
-    "@react-three/drei": "^10.0.7",
     "@react-three/eslint-plugin": "^0.1.2",
     "@react-three/fiber": "^9.1.2",
     "@react-three/xr": "^6.6.16",
@@ -61,7 +60,7 @@
     "@vitejs/plugin-basic-ssl": "^2.0.0",
     "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9.26.0",
-    "eslint-config-prettier": "^10.1.3",
+    "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",

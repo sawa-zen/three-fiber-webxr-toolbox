@@ -8,7 +8,7 @@ interface Props {
   message: string
 }
 
-export const ErrorSprite = ({ message }: Props): JSX.Element => {
+export const ErrorSprite = ({ message }: Props) => {
   const canvasTextureRef = useRef<CanvasTexture>(null)
   const { gl, camera } = useThree()
   const { player, isPresenting } = useXR()

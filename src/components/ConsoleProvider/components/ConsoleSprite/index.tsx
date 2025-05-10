@@ -8,7 +8,7 @@ interface Props {
   messages: string[]
 }
 
-export const ConsoleSprite = ({ messages }: Props): JSX.Element => {
+export const ConsoleSprite = ({ messages }: Props) => {
   const meshRef = useRef<Mesh | null>(null)
   const canvasTextureRef = useRef<CanvasTexture>(null)
   const { gl, camera } = useThree()

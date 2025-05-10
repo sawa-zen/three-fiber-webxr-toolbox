@@ -31,14 +31,10 @@ export default defineConfig(({ command }) => {
     }
   } else {
     return {
-      optimizeDeps: {
-        exclude: [
-          '@react-three/fiber',
-          '@react-three/xr',
-          'react',
-          'react-dom',
-          'three',
-        ]
+      resolve: {
+        alias: {
+          'three-fiber-webxr-toolbox': path.resolve(process.cwd(), 'src')
+        }
       },
       build: {
         minify: false,
