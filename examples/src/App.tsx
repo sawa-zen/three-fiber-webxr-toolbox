@@ -21,13 +21,21 @@ export function App() {
       <ambientLight />
       <directionalLight position={[1, 2, 3]} />
       <mesh
-        position={[0, 0.9, -0.4]}
+        position={[0, 1.5, -0.4]}
         scale={[0.1, 0.1, 0.1]}
         rotation={[rotation, rotation, rotation]}
         onClick={handleClickBox}
       >
         <boxGeometry args={[0.5, 0.5, 0.5]} />
         <meshPhongMaterial color="skyblue" />
+      </mesh>
+      <mesh
+        position={[0.2, 1.5, -0.4]}
+        scale={[0.1, 0.1, 0.1]}
+        rotation={[rotation, rotation, rotation]}
+      >
+        <boxGeometry args={[0.5, 0.5, 0.5]} />
+        <meshPhongMaterial color="blue" />
       </mesh>
       <SkySphere />
     </>

@@ -2,12 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createXRStore, XR } from "@react-three/xr";
 import { Canvas } from "@react-three/fiber";
-import { ConsoleProvider, RemoteDisplay, XrErrorBoundary } from "three-fiber-webxr-toolbox"
+import { ConsoleProvider, PassthroughHand, RemoteDisplay, XrErrorBoundary } from "three-fiber-webxr-toolbox"
 import { App } from "./App";
 
 const socketServerUrl = import.meta.env.VITE_SOCKET_SERVER_URL as string
 
-const store = createXRStore()
+const store = createXRStore({
+  hand: PassthroughHand,
+})
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
