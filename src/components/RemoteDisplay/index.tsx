@@ -2,7 +2,7 @@ import { useRemoteDisplay } from "./hooks"
 import { Interactive } from "@react-three/xr"
 import { memo } from "react"
 import { HtmlMaterial } from "../HtmlMaterial"
-import { LinearSRGBColorSpace } from "three"
+import { LinearSRGBColorSpace, SRGBColorSpace } from "three"
 
 interface Props {
   position?: [number, number, number]
@@ -47,7 +47,7 @@ export const RemoteDisplay = memo(({
             <videoTexture
               attach="map"
               args={[videoElement]}
-              colorSpace={LinearSRGBColorSpace}
+              colorSpace={SRGBColorSpace}
             />
           </meshBasicMaterial>
         ) : (
